@@ -143,7 +143,12 @@
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" href="#">Settings</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">Log out
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                  </a>
                 </div>
               </li>
             </ul>
@@ -283,8 +288,6 @@
   <script src="{{ asset('/assets/js/plugins/nouislider.min.js') }}"></script>
   <!-- Library for adding dinamically elements -->
   <script src="{{ asset('/assets/js/plugins/arrive.min.js') }}"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
   <script src="{{ asset('/assets/js/plugins/chartist.min.js') }}"></script>
   <!--  Notifications Plugin    -->
