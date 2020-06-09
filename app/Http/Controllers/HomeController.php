@@ -23,6 +23,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $sidebar_cond = "aktif";
         return view('admin.dashboard');
+    }
+
+    public function produksi()
+    {
+        return view('admin.produksi');
+    }
+
+    public function addProduksi() 
+    {
+        return view('produksi.create');
     }
 }

@@ -28,6 +28,7 @@
             </form>			
             <div class="text-center small">Don't have an account? <a href="#">Sign up</a></div>
         </div>
+        
         <script src="{{ asset('/assets/bower-components/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('/assets/bower-components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     </body>
