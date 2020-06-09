@@ -3,13 +3,26 @@
 
 body {
     color: #999;
-    background: url('../img/bg-1.jpg'), no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
     font-family: 'Varela Round', sans-serif;
     margin: 0;
     padding: 0;
 }
+
+body::after {
+    content: "";
+    background: url('../img/bg-1.jpg'), no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    /* filter: blur(1.2px);
+    -webkit-filter: blur(1.2px); */
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+  }
 
 .form-control {
     box-shadow: none;
@@ -25,10 +38,10 @@ body {
 }
 .login-form form {
     color: #434343;
-    border-radius: 1px;
     margin-bottom: 15px;
     background: #fff;
     border: 1px solid #f3f3f3;
+    border-radius: 10px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     padding: 30px;
 }
