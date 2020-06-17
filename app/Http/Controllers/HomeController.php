@@ -27,13 +27,4 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
-    public function produksi()
-    {
-        return view('admin.produksi');
-    }
-
-    public function addProduksi() 
-    {
-        return view('produksi.create');
-    }
 }

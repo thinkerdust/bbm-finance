@@ -16,11 +16,30 @@
             <p>Produksi</p>
         </a>
         </li>
-        <li class="nav-item ">
-        <a class="nav-link" href="./tables.html">
-            <i class="material-icons">payments</i>
-            <p>Pembayaran</p>
-        </a>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#pagesExamples" aria-expanded="true">
+                <i class="material-icons">payments</i>
+                <p> Pembayaran
+                <b class="caret"></b>
+                </p>
+            </a>
+            <!-- show -->
+            <div class="collapse" id="pagesExamples"> 
+                <ul class="nav">
+                    <li class="nav-item">
+                            <a class="nav-link" href="../../examples/pages/pricing.html">
+                                <i class="material-icons">fiber_manual_record</i>
+                                <span class="sidebar-normal"> Confirmed </span>
+                            </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../../examples/pages/rtl.html">
+                            <i class="material-icons">fiber_manual_record</i>
+                            <span class="sidebar-normal"> Un-confirmed </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </li>
         <li class="nav-item ">
         <a class="nav-link" href="./typography.html">

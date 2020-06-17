@@ -3,20 +3,25 @@
 
 <head>
   <meta charset="utf-8" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/assets/img/apple-icon.png') }}">
   <link rel="icon" type="image/png" href="{{ asset('/assets/img/favicon.png') }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard by Creative Tim
+    Aplikasi Finance
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <link href="{{ asset('/assets/css/plugins/daterangepicker.css') }}" rel="stylesheet" />
+  <link href="{{ asset('/assets/bower-components/bs-datepicker/css/bootstrap-datepicker.css') }}" rel="stylesheet" />
+  <link href="{{ asset('/assets/css/plugins/select2.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('/assets/css/plugins/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="{{ asset('/assets/css/plugins/font-awesome.min.css') }}"> -->
   <!-- CSS Files -->
-  <link href="{{ asset('/assets/css/material-dashboard.css?v=2.1.2') }}" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="{{ asset('/assets/demo/demo.css') }}" rel="stylesheet" />
+  <link href="{{ asset('/assets/css/material-dashboard.css') }}" rel="stylesheet" />
+  <!-- <link href="{{ asset('/assets/css/material-dashboard.css?v=2.1.2') }}" rel="stylesheet" /> -->
 </head>
 
 <body class="">
@@ -116,11 +121,13 @@
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="{{ asset('/assets/js/plugins/jquery.bootstrap-wizard.js') }}"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="{{ asset('/assets/js/plugins/bootstrap-selectpicker.js') }}"></script>
+  <script src="{{ asset('/assets/js/plugins/select2.full.min.js') }}"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="{{ asset('/assets/js/plugins/bootstrap-datetimepicker.min.js') }}"></script>
+  <script src="{{ asset('/assets/js/plugins/daterangepicker.js') }}"></script>
+  <script src="{{ asset('/assets/bower-components/bs-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="{{ asset('/assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('/assets/js/plugins/dataTables.bootstrap4.min.js') }}"></script>
   <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
   <script src="{{ asset('/assets/js/plugins/bootstrap-tagsinput.js') }}"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
@@ -138,17 +145,9 @@
   <!--  Notifications Plugin    -->
   <script src="{{ asset('/assets/js/plugins/bootstrap-notify.js') }}"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ asset('/assets/js/material-dashboard.js?v=2.1.2') }}" type="text/javascript"></script>
-  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="{{ asset('/assets/demo/demo.js') }}"></script>
+  <script src="{{ asset('/assets/js/material-dashboard.js') }}" type="text/javascript"></script>
+  <!-- <script src="{{ asset('/assets/js/material-dashboard.js?v=2.1.2') }}" type="text/javascript"></script> -->
   <script src="{{ asset('/assets/js/custom.js') }}"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
-
-    });
-  </script>
 </body>
 
 </html>
