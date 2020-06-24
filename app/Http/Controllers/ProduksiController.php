@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Produksi;
+use DataTables;
 
 class ProduksiController extends Controller
 {
@@ -16,15 +17,28 @@ class ProduksiController extends Controller
     
     public function index()
     {
-        $data = Produksi::all();
-        return $data;
-        return view('produksi.index');
+        $sidebar = "produksi";
+        return view('produksi.index', compact('sidebar'));
+    }
+
+    public function getdata()
+    {
+        $data = Produksi::select(['id','customer', 'lokasi_proyek', 'tgl_pengecoran', 'volume', 'sum_harga']);
+        return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<button class="btn btn-sm btn-info detailProduksi" data-placement="bottom" rel="tooltip" id="detailProduksi" title="Detail Data" id-view="'.$row->id.'"><i class="material-icons">visibility</i></button>
+                    <a href="/produksi/edit/'.$row->id.'" rel="tooltip" class="btn btn-sm btn-success" data-placement="bottom" title="Edit Data"><i class="material-icons">edit</i></a>
+                    <button rel="tooltip" class="btn btn-sm btn-danger dltDataProd" data-placement="bottom" title="Hapus Data" id="dltDataProd" data-id="'.$row->id.'"><i class="material-icons">delete</i></button>';
+                  return $btn;
+                })->rawColumns(['action'])->make(true);   
     }
 
     public function create() 
     {
+        $sidebar = "produksi";
         $data = DB::table('tb_mutu_beton')->get();
-        return view('produksi.create', compact('data'));
+        return view('produksi.create', compact('data', 'sidebar'));
     }
 
     public function store(Request $request)
@@ -70,9 +84,10 @@ class ProduksiController extends Controller
 
     public function edit($id)
     {
+        $sidebar = "produksi";
         $data = Produksi::find($id);
         $mutu = DB::table('tb_mutu_beton')->get();
-        return view('produksi.edit', compact('data','mutu'));
+        return view('produksi.edit', compact('data','mutu', 'sidebar'));
     }
 
     public function update(Request $request, $id)
