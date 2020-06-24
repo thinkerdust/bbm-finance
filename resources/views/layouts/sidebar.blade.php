@@ -4,42 +4,23 @@
     </a></div>
     <div class="sidebar-wrapper">
     <ul class="nav">
-        <li class="nav-item ">
+        <li class="nav-item {{ $sidebar=='dashboard' ? 'active':'' }}">
         <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="material-icons">dashboard</i>
             <p>Dashboard</p>
         </a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item {{ $sidebar=='produksi' ? 'active':'' }}">
         <a class="nav-link" href="{{ route('produksi') }}">
             <i class="material-icons">donut_small</i>
             <p>Produksi</p>
         </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#pagesExamples" aria-expanded="true">
-                <i class="material-icons">payments</i>
-                <p> Pembayaran
-                <b class="caret"></b>
-                </p>
-            </a>
-            <!-- show -->
-            <div class="collapse" id="pagesExamples"> 
-                <ul class="nav">
-                    <li class="nav-item">
-                            <a class="nav-link" href="../../examples/pages/pricing.html">
-                                <i class="material-icons">fiber_manual_record</i>
-                                <span class="sidebar-normal"> Confirmed </span>
-                            </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="../../examples/pages/rtl.html">
-                            <i class="material-icons">fiber_manual_record</i>
-                            <span class="sidebar-normal"> Un-confirmed </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <li class="nav-item {{ $sidebar=='payments' ? 'active':'' }}">
+        <a class="nav-link" href="{{route('payments')}}">
+            <i class="material-icons">payments</i>
+            <p>Pembayaran</p>
+        </a>
         </li>
         <li class="nav-item ">
         <a class="nav-link" href="./typography.html">

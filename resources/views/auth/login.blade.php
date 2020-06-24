@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required="required" name="password" autocomplete="off">
-                    <span> {{ $errors->first('password') }}</span>
+                    <span>{{ $errors->first('password') }}</span>
                 </div>
                 <div class="form-group small clearfix">
                     <label class="checkbox-inline"><input type="checkbox" {{ old('remember') ? 'checked' : '' }}> Remember me</label>

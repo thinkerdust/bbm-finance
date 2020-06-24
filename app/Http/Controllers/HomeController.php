@@ -23,8 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sidebar_cond = "aktif";
-        return view('admin.dashboard');
+        $sidebar = "dashboard";
+        return view('admin.dashboard', compact('sidebar'));
     }
 
 }

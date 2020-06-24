@@ -35,51 +35,14 @@
                     <th>
                       Volume
                     </th>
-                    <th>
+                    <th width="10%">
                       Total ($)
                     </th>
-                    <th class="no-sort text-center">
+                    <th class="text-center" width="20%">
                       Action
                     </th>
                   </thead>
                   <tbody>
-                  @php $no = 1; @endphp
-                  @foreach ($data as $row)
-                    <tr>
-                      <td>
-                        {{ $no++ }}
-                      </td>
-                      <td>
-                        {{ $row->customer }}
-                      </td>
-                      <td>
-                        {{ $row->lokasi_proyek }}
-                      </td>
-                      <td>
-                        <!-- {{ $row->tgl_pengecoran }} -->
-                        {{ date('d-M-y', strtotime($row->tgl_pengecoran)) }}
-                      </td>
-                      <td>
-                        {{ $row->volume }} M3
-                      </td>
-                      <td class="text-primary">
-                        Rp. {{ number_format($row->sum_harga) }}
-                      </td>
-                      <td class="td-actions text-right">
-                            <button type="button" class="btn btn-info detailProduksi" id="detailProduksi" rel="tooltip" data-placement="bottom" title="Detail Data" id-view='{{$row->id}}'>
-                              <i class="material-icons">visibility</i>
-                            </button>
-                            <a href="{{route('editproduksi', $row->id)}}">
-                            <button type="button" rel="tooltip" class="btn btn-success" data-placement="bottom" title="Edit Data">
-                              <i class="material-icons">edit</i>
-                            </button>
-                            </a>
-                            <button type="button" rel="tooltip" class="btn btn-danger dltDataProd" data-placement="bottom" title="Hapus Data" id="dltDataProd" data-id='{{ $row->id }}'>
-                              <i class="material-icons">delete</i>
-                            </button>
-                          </td>
-                    </tr>
-                    @endforeach
                   </tbody>
                 </table>
               </div>

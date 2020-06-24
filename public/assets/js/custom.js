@@ -1,12 +1,56 @@
-// const table = $('#produksi-datatables').DataTable();
-
-$('#produksi-datatables').DataTable({
-  "order": [],
-  "columnDefs": [ {
-    "targets"  : 'no-sort',
-    "orderable": false,
-  }],
+const tablePRO = $('#produksi-datatables').DataTable({
+  serverSide: true,
+  processing: true,
+  ajax: {
+    url: "/produksi/getdata",
+  },
+  columns : [
+    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+    {data: 'customer', name: 'customer'},
+    {data: 'lokasi_proyek', name: 'lokasi_proyek'},
+    {data: 'tgl_pengecoran', name: 'tgl_pengecoran', render:function(data){return moment(data).format('D MMM YYYY');}},
+    {data: 'volume', name: 'volume', render: function ( data, type, row ) {return data + ' M3';}},
+    {data: 'sum_harga', name: 'sum_harga', render: $.fn.dataTable.render.number( ',', '.', 0, 'Rp. ' )},
+    {data: 'action', name: 'action', orderable: false, searchable: false},
+  ],
 });
+
+// $('#produksi-datatables').DataTable({
+//   order: [],
+//   columnDefs: [{
+//     targets: "no-sort",
+//     "orderable": false,
+//   }],
+// });
+
+// $(document).ready(function(){
+//   $.ajax({
+//     url: '/produksi/getdata',
+//     success: function(data) {
+//       for(var i = 0; i < data.length; i++) {
+//         $('#produksi-datatables').DataTable().row.add([
+//           (i+1),
+//           data[i]['customer'],
+//           data[i]['lokasi_proyek'],
+//           data[i]['tgl_pengecoran'],
+//           data[i]['volume'],
+//           data[i]['sum_harga'],
+//           `<button type="button" class="btn btn-sm btn-info detailProduksi" id-view="`+data[i]['id']+`" id="detailProduksi" rel="tooltip" data-placement="bottom" title="Detail Data">
+//           <i class="material-icons">visibility</i>
+//           </button>
+//           <a href="{{route('editproduksi', $row->id)}}">
+//           <button type="button" rel="tooltip" class="btn btn-sm btn-success" data-placement="bottom" title="Edit Data">
+//             <i class="material-icons">edit</i>
+//           </button>
+//           </a>
+//           <button type="button" rel="tooltip" class="btn btn-sm btn-danger dltDataProd" data-placement="bottom" title="Hapus Data" id="dltDataProd" data-id='{{ $row->id }}'>
+//             <i class="material-icons">delete</i>
+//           </button>`
+//         ]).draw(false);
+//       }
+//     }
+//   })
+// });
 
 $(document).on('click', '.dltDataProd', function(e) {
     e.preventDefault();
@@ -31,7 +75,7 @@ $(document).on('click', '.dltDataProd', function(e) {
           }).done(function(data) {
             // $('#produksi-datatables').DataTable().row(col).remove().draw();
             // $('#produksi-datatables').load(location.href + ' #produksi-datatables');
-            // $('#produksi-datatables').DataTable().ajax.reload();
+            tablePRO.ajax.reload();
             Swal.fire(
               'Deleted!',
               'Your file has been deleted.',
@@ -42,7 +86,7 @@ $(document).on('click', '.dltDataProd', function(e) {
       })
 });
 
-$('.detailProduksi').on('click', function(e) {
+$('body').on('click', '.detailProduksi', function(e) {
   e.preventDefault();
   let id = $(this).attr('id-view');
   $.ajax({
@@ -50,7 +94,6 @@ $('.detailProduksi').on('click', function(e) {
     dataType: 'JSON',
     type: 'GET',
     success:(function(data) {
-      console.log(data);
       let tgl = new Intl.DateTimeFormat(['ban', 'id']).format(new Date(data[0]['tgl_pengecoran']));
       let harga = new Intl.NumberFormat(['ban', 'id']).format(data[0]['harga_m3']);
       let total = new Intl.NumberFormat(['ban', 'id']).format(data[0]['sum_harga']);
@@ -140,3 +183,88 @@ function SumHargabeton() {
     $('#input-totalhrg').val('');
   }
 };
+
+
+// Payments JS
+const tablePay = $('#pembayaran-datatables').DataTable({
+  serverSide: true,
+  processing: true,
+  ajax: {
+    url: "/payments/getdata",
+  },
+  columns : [
+    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+    {data: 'customer', name: 'customer'},
+    {data: 'lokasi_proyek', name: 'lokasi_proyek'},
+    {data: 'tgl_pembayaran', name: 'tgl_pembayaran', render:function(data){return moment(data).format('D MMM YYYY');}},
+    {data: 'nominal', name: 'nominal', render: $.fn.dataTable.render.number( ',', '.', 0, 'Rp. ' )},
+    {data: 'keterangan', name: 'keterangan'},
+    {data: 'action', name: 'action', orderable: false, searchable: false},
+  ],
+});
+
+$('#btn-addpay').click(function(e) {
+  e.preventDefault();
+  $('#modalAddPayment').modal('show');
+});
+
+// $('body').on('click', '#savePayments', function(e){
+//   e.preventDefault();
+//   let cust = $('#pay-customer').val();
+//   let lokpro = $('#pay-lokpro').val();
+//   let tgl = $('#tgl_payments').val();
+//   let nominal = $('#pay-nominal').val();
+//   let ket = $('#pay-keterangan').val();
+//   $.ajaxSetup({
+//       headers: {
+//           'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+//       }
+//   });
+//   $.ajax({
+//     url: '/payments/store',
+//     type: 'POST',
+//     dataType: 'json',
+//     data: {cust: cust, lokpro: lokpro, tgl: tgl, nominal: nominal, ket: ket}
+//   }).done(function(data){
+//     tablePay.ajax.reload();
+//     $('#modalAddPayment').modal('hide');
+//     Swal.fire({
+//       title: 'Success!',
+//       text: 'Your file has been save.',
+//       type: 'success',
+//       timer: '2000'
+//     })
+//   })
+// });
+
+$(document).ready(function(){
+  $('#addPayments').submit(function(e){
+    e.preventDefault();
+    let cust = $('#pay-customer').val();
+    let lokpro = $('#pay-lokpro').val();
+    let tgl = $('#tgl_payments').val();
+    let nominal = $('#pay-nominal').val();
+    let ket = $('#pay-keterangan').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+      url: '/payments/store',
+      type: 'POST',
+      dataType: 'json',
+      data: {cust: cust, lokpro: lokpro, tgl: tgl, nominal: nominal, ket: ket}
+    }).done(function(data){
+      tablePay.ajax.reload();
+      $('#modalAddPayment').modal('hide');
+      Swal.fire({
+        title: 'Success!',
+        text: 'Your file has been save.',
+        type: 'success',
+        timer: '2000'
+      })
+    })
+    return false;
+  })
+});
