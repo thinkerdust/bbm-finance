@@ -15,49 +15,12 @@ const tablePRO = $('#produksi-datatables').DataTable({
   ],
 });
 
-// $('#produksi-datatables').DataTable({
-//   order: [],
-//   columnDefs: [{
-//     targets: "no-sort",
-//     "orderable": false,
-//   }],
-// });
-
-// $(document).ready(function(){
-//   $.ajax({
-//     url: '/produksi/getdata',
-//     success: function(data) {
-//       for(var i = 0; i < data.length; i++) {
-//         $('#produksi-datatables').DataTable().row.add([
-//           (i+1),
-//           data[i]['customer'],
-//           data[i]['lokasi_proyek'],
-//           data[i]['tgl_pengecoran'],
-//           data[i]['volume'],
-//           data[i]['sum_harga'],
-//           `<button type="button" class="btn btn-sm btn-info detailProduksi" id-view="`+data[i]['id']+`" id="detailProduksi" rel="tooltip" data-placement="bottom" title="Detail Data">
-//           <i class="material-icons">visibility</i>
-//           </button>
-//           <a href="{{route('editproduksi', $row->id)}}">
-//           <button type="button" rel="tooltip" class="btn btn-sm btn-success" data-placement="bottom" title="Edit Data">
-//             <i class="material-icons">edit</i>
-//           </button>
-//           </a>
-//           <button type="button" rel="tooltip" class="btn btn-sm btn-danger dltDataProd" data-placement="bottom" title="Hapus Data" id="dltDataProd" data-id='{{ $row->id }}'>
-//             <i class="material-icons">delete</i>
-//           </button>`
-//         ]).draw(false);
-//       }
-//     }
-//   })
-// });
-
 $(document).on('click', '.dltDataProd', function(e) {
     e.preventDefault();
     let col = $(this).parents('tr');
     Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "You won't be able to delete this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -73,8 +36,6 @@ $(document).on('click', '.dltDataProd', function(e) {
             url: "/produksi/delete/"+id,
             data: {"_method":"DELETE","_token":token,"id":id},
           }).done(function(data) {
-            // $('#produksi-datatables').DataTable().row(col).remove().draw();
-            // $('#produksi-datatables').load(location.href + ' #produksi-datatables');
             tablePRO.ajax.reload();
             Swal.fire(
               'Deleted!',
@@ -117,17 +78,24 @@ $('body').on('click', '.detailProduksi', function(e) {
 });
 
 $('.datepicker').daterangepicker({
-  todayHiglight: true,
   autoUpdateInput: false,
   showDropdowns: true,
   singleDatePicker: true,
+  autoApply: true,
   minYear: 2000,
   locale: {
-    format: 'DD-MM-YYYY',
+    format: 'DD/MM/YYYY',
   }
-}, function(start) {
-  $(this.element).val(start.format('DD-MM-YYYY'));
 });
+
+$('.datepicker').on('apply.daterangepicker', function(ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YYYY'));
+  $(this).data('daterangepicker').setStartDate(startDate);
+});
+
+// function(start) {
+//   $(this.element).val(start.format('DD/MM/YYYY'));
+// }
 
 $('.harga').keyup(function(e) {
   $(this).val(formatRupiah($(this).val(), 'Rp. '));
@@ -150,11 +118,6 @@ function formatRupiah(angka, prefix){
   rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
   return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 };
-
-// $('.number-format').keyup(function(e) {
-//   let n = $(this).val().replace(/\D/g,'');
-//   $(this).val(n);
-// });
 
 $('.select2').select2({
   placeholder: "SELECT AN OPTION",
@@ -205,66 +168,103 @@ const tablePay = $('#pembayaran-datatables').DataTable({
 
 $('#btn-addpay').click(function(e) {
   e.preventDefault();
+  $('#updt-id').val('');
+  $('#savePayments').val('create-pay');
+  $('.modal-title').html('Tambah Data Pembayaran');
+  $('#addPayments').trigger('reset');
   $('#modalAddPayment').modal('show');
 });
 
-// $('body').on('click', '#savePayments', function(e){
-//   e.preventDefault();
-//   let cust = $('#pay-customer').val();
-//   let lokpro = $('#pay-lokpro').val();
-//   let tgl = $('#tgl_payments').val();
-//   let nominal = $('#pay-nominal').val();
-//   let ket = $('#pay-keterangan').val();
-//   $.ajaxSetup({
-//       headers: {
-//           'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-//       }
-//   });
-//   $.ajax({
-//     url: '/payments/store',
-//     type: 'POST',
-//     dataType: 'json',
-//     data: {cust: cust, lokpro: lokpro, tgl: tgl, nominal: nominal, ket: ket}
-//   }).done(function(data){
-//     tablePay.ajax.reload();
-//     $('#modalAddPayment').modal('hide');
-//     Swal.fire({
-//       title: 'Success!',
-//       text: 'Your file has been save.',
-//       type: 'success',
-//       timer: '2000'
-//     })
-//   })
-// });
+$('body').on('click', '.upDataPay', function(e){
+  e.preventDefault();
+  let id = $(this).attr('upd-id');
+  $('#savePayments').val('update-pay');
+  $('.modal-title').html('Update Data Pembayaran');
+  $('#modalAddPayment').modal('show');
+  $.ajax({
+    url: '/payments/edit/'+id,
+    dataType: 'json',
+    type: 'GET',
+    success: function(data){
+      let tgl = new Intl.DateTimeFormat(['ban', 'id']).format(new Date(data['tgl_pembayaran']));
+      let nom = new Intl.NumberFormat(['ban', 'id']).format(data['nominal']);
+      $('#updt-id').val(id);
+      $('#pay-customer').val(data['customer']);
+      $('#pay-lokpro').val(data['lokasi_proyek']);
+      $('#tgl_payments').val(tgl);
+      $('#pay-nominal').val('Rp. ' + nom);
+      $('#pay-keterangan').val(data['keterangan']);
+    }
+  })
+});
 
 $(document).ready(function(){
   $('#addPayments').submit(function(e){
     e.preventDefault();
+    let id = $('#updt-id').val();
     let cust = $('#pay-customer').val();
     let lokpro = $('#pay-lokpro').val();
     let tgl = $('#tgl_payments').val();
     let nominal = $('#pay-nominal').val();
     let ket = $('#pay-keterangan').val();
+    let cat = $('#savePayments').val();
+    let ajaxURL = '';
+    if (cat==='create-pay'){
+      ajaxURL= '/payments/store';
+    }else if (cat==='update-pay'){
+      ajaxURL= '/payments/update/'+id;
+    }
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
         }
     });
     $.ajax({
-      url: '/payments/store',
+      url: ajaxURL,
       type: 'POST',
       dataType: 'json',
       data: {cust: cust, lokpro: lokpro, tgl: tgl, nominal: nominal, ket: ket}
     }).done(function(data){
       tablePay.ajax.reload();
       $('#modalAddPayment').modal('hide');
-      Swal.fire({
-        title: 'Success!',
-        text: 'Your file has been save.',
-        type: 'success',
-        timer: '2000'
-      })
+      Swal.fire(
+        'Success!',
+        'Your file has been save.',
+        'success'
+      )
     })
     return false;
   })
+});
+
+$(document).on('click', '.dltDataPay', function(e) {
+  e.preventDefault();
+  let col = $(this).parents('tr');
+  Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to delete this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      allowOutsideClick: false,
+    }).then((result) => {
+      if(result.value) {
+        let id = $(this).attr('data-id');
+        let token = $("meta[name='csrf-token']").attr("content");
+        $.ajax({
+          type: "post",
+          url: "/payments/destroy/"+id,
+          data: {"_method":"DELETE","_token":token,"id":id},
+        }).done(function(data) {
+          tablePay.ajax.reload();
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        });
+      }
+    })
 });

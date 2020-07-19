@@ -34,7 +34,7 @@
                         <label class="col-sm-2 col-form-label">Tanggal Pengecoran</label>
                         <div class="col-sm-7">
                         <div class="form-group">
-                            <input class="form-control datepicker" name="tgl_pngcoran" id="tglpngcoran" type="text" placeholder="Tanggal Pengecoran" required style="text-transform:uppercase" value="{{date('d-m-Y', strtotime($data['tgl_pengecoran']))}}"/>
+                            <input class="form-control datepicker" name="tgl_pngcoran" id="tglpngcoran" type="text" placeholder="Tanggal Pengecoran" required style="text-transform:uppercase" value="{{date('d/m/Y', strtotime($data['tgl_pengecoran']))}}"/>
                         </div>
                         </div>
                     </div>
