@@ -34,3 +34,6 @@ Route::post('/produksi/update/{id}', 'ProduksiController@update')->name('updatep
 Route::get('/payments', 'PaymentsController@index')->name('payments');
 Route::get('/payments/getdata', 'PaymentsController@getdata');
 Route::post('/payments/store', 'PaymentsController@store');
+Route::get('/payments/edit/{id}', 'PaymentsController@edit');
+Route::post('/payments/update/{id}', 'PaymentsController@update');
+Route::delete('/payments/destroy/{id}', 'PaymentsController@destroy');

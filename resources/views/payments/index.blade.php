@@ -58,9 +58,11 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document"> 
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Tambah Data Pembayaran</h4>
+        <h4 class="modal-title"></h4>
       </div>
       <form autocomplete="off" class="form-horizontal" role="form" id="addPayments">
+      {{ csrf_field() }}
+        <input type="hidden" id="updt-id">
       <div class="modal-body">
         <table style="width:100%">
           <tr>
@@ -68,7 +70,6 @@
             <td style="width:5%;">:</td>
             <td style="width:65%;text-align:left;">
               <input type="text" class="form-control" id="pay-customer" name="pay-customer" placeholder="Masukkan Customer" style="text-transform:uppercase" required>
-              <span id="sp-cust" style="color:red"></span>
             </td>
           </tr>
           <tr>
@@ -76,7 +77,6 @@
             <td style="width:5%;">:</td>
             <td style="width:65%;text-align:left;">
               <input type="text" class="form-control" id="pay-lokpro" name="pay-lokpro" placeholder="Masukkan Lokasi Proyek" style="text-transform:uppercase" required>  
-              <span id="sp-lokpro" style="color:red"></span>
             </td>
           </tr>
            <tr>
@@ -84,7 +84,6 @@
             <td style="width:5%;">:</td>
             <td style="width:65%;text-align:left;">
               <input type="text" class="form-control datepicker" id="tgl_payments" name="tgl_payments" placeholder="Masukkan Tanggal Pembayaran" style="text-transform:uppercase" required>  
-              <span id="sp-tglpay" style="color:red"></span>
             </td>
           </tr>
           <tr>
@@ -92,7 +91,6 @@
             <td style="width:5%;">:</td>
             <td style="width:65%;text-align:left;">
               <input type="text" class="form-control harga" id="pay-nominal" name="pay-nominal" placeholder="Masukkan Nominal" style="text-transform:uppercase" required>  
-              <span id="sp-nompay" style="color:red"></span>
             </td>
           </tr>
           <tr>
@@ -100,7 +98,6 @@
             <td style="width:5%;">:</td>
             <td style="width:65%;text-align:left;">
               <input type="text" class="form-control" id="pay-keterangan" name="pay-keterangan" placeholder="Masukkan Keterangan" style="text-transform:uppercase" required>  
-              <span id="sp-ketpay" style="color:red"></span>
             </td>
           </tr>
         </table>
